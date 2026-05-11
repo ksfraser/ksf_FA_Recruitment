@@ -1,54 +1,30 @@
-# Business Requirements - ksf_Recruitment
+# Business Requirements - ksf_FA_Recruitment
 
-## Project Overview
-Recruitment module - manage hiring requisitions, candidates, interviews, and offers.
+## Overview
+ksf_FA_Recruitment is the FrontAccounting adapter for ksf_Recruitment (Applicant Tracking System).
 
-## Problem Statement
-- Need to track job requisitions
-- Manage candidates through pipeline
-- Interview scheduling and feedback
-- Offer management
-- Integration with onboarding
+## Relationship to Core Module
 
-## Scope
+### Core Module
+- **ksf_Recruitment**: Business logic
+- Namespace: `Ksfraser\Recruitment`
 
-### In Scope
-1. **Requisitions**
-   - Create opening with requirements
-   - Department, manager assignment
-   - Status (open, filled, cancelled)
-   - Priority
+### FA Adapter
+- **ksf_FA_Recruitment**: FA presentation layer
+- Namespace: `Ksfraser\FA\Recruitment`
 
-2. **Candidates**
-   - Apply to requisition
-   - Pipeline stages (Applied → Screening → Interview → Offer → Hired/Rejected)
-   - Resume/CV storage
-   - Notes/history
+## FA-Specific Features
 
-3. **Interviews**
-   - Schedule interviews
-   - Rate criteria (1-5)
-   - Feedback collection
-   - Decision
+### Database Integration
+- FA-compliant tables: `fa_recruitment_positions`, `fa_applicants`, etc.
+- Links to FA users for hiring managers
 
-4. **Offers**
-   - Generate offer letter
-   - Compensation proposal
-   - Acceptance tracking
+### HR Integration
+- Links to ksf_FA_HRM for employee creation
+- Job posting to company website
 
-5. **Integration**
-   - Auto-create employee on hire
-   - Auto-create onboarding tasks
+## Link to Core BR
+This adapter implements: `/home/kevin/Documents/ksf_Recruitment/ProjectDcs/Business Requirements.md`
 
-### Out of Scope
-- External job board posting
-- Email parsing fromIndeed
-
-## Pipeline Stages
-1. Applied
-2. Phone Screen
-3. Technical Interview
-4. Manager Interview
-5. HR Interview
-6. Offer Extended
-7. Hired / Rejected
+*Document Version: 1.0.0*
+*Last Updated: 2026-05-11*
