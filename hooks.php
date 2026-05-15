@@ -7,6 +7,7 @@ define('SS_RECRUITMENT', 132 << 8);
 
 class hooks_fa_recruitment extends hooks {
     var $module_name = 'fa_recruitment';
+    var $version = '1.0.0';
 
     function install_options($app) {
         global $path_to_root;
