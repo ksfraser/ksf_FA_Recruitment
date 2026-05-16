@@ -5,9 +5,9 @@
 
 define('SS_RECRUITMENT', 132 << 8);
 
-class hooks_fa_recruitment extends hooks {
-    var $module_name = 'fa_recruitment';
-    var $version = '1.0.0';
+class hooks_ksf_FA_Recruitment extends hooks {
+    var $module_name = 'ksf_FA_Recruitment';
+    var $version = '2.4.0';
 
     function install_options($app) {
         global $path_to_root;
@@ -33,6 +33,13 @@ class hooks_fa_recruitment extends hooks {
         $security_areas['SA_RECRUITMENTMANAGE'] = array(SS_RECRUITMENT | 3, _("Manage Applications"));
         $security_areas['SA_RECRUITMENTREPORTS'] = array(SS_RECRUITMENT | 4, _("View Recruitment Reports"));
         return array($security_areas, $security_sections);
+    }
+
+    function install_extension($check_only=true) {
+        return true;
+    }
+
+    function install_tabs($app) {
     }
 
     function activate_extension($company, $check_only=true) {
