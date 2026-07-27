@@ -1,30 +1,45 @@
 # Business Requirements - ksf_FA_Recruitment
 
 ## Overview
-ksf_FA_Recruitment is the FrontAccounting adapter for ksf_Recruitment (Applicant Tracking System).
+ksf_FA_Recruitment is the FrontAccounting module for Recruitment Management. It provides job posting, applicant tracking, interview scheduling, offer management, and grade/salary workflow.
 
-## Relationship to Core Module
+## Module Responsibilities
 
-### Core Module
-- **ksf_Recruitment**: Business logic
-- Namespace: `Ksfraser\Recruitment`
+### What Recruitment Owns
+- Job opening management (post, close, hold)
+- Applicant tracking (applied -> screening -> interview -> offer -> hired/rejected)
+- Interview scheduling and feedback
+- Offer management with salary/grade
+- Grade linkage (role->grade, position->grade)
+- Grade approval workflow (when salary exceeds authorized range)
 
-### FA Adapter
-- **ksf_FA_Recruitment**: FA presentation layer
-- Namespace: `Ksfraser\FA\Recruitment`
+### What Recruitment Does NOT Own
+- Employee records -> `ksf_FA_HRM` (0_hrm_contacts_employment)
+- Positions, Roles, Grades -> `ksf_FA_HRM`
+- Leave tracking -> `ksf_FA_Leave`
 
 ## FA-Specific Features
 
-### Database Integration
-- FA-compliant tables: `fa_recruitment_positions`, `fa_applicants`, etc.
-- Links to FA users for hiring managers
+### Database
+- FA-compliant table naming: `0_recruit_*` prefix
+- FKs to HRM: `0_hrm_departments`, `0_hrm_positions`, `0_hrm_roles`, `0_hrm_grades`
+- FKs to CRM: `0_crm_persons` (applicants, hiring managers, interviewers)
 
-### HR Integration
-- Links to ksf_FA_HRM for employee creation
-- Job posting to company website
+### Hiring Pipeline
+```
+Job Opening -> Applications -> Screening -> Interviews -> Offer -> Hire
+                                                              |
+                                                    Create Employee (HRM)
+```
 
-## Link to Core BR
-This adapter implements: `/home/kevin/Documents/ksf_Recruitment/ProjectDcs/Business Requirements.md`
+### Grade Approval Workflow
+When an offer salary exceeds the position's authorized grade range, the system creates a grade approval record requiring management approval before the offer can be finalized.
 
-*Document Version: 1.0.0*
-*Last Updated: 2026-05-11*
+## Dependencies
+- FrontAccounting 2.4+
+- ksf_FA_HRM (org hierarchy, employee creation)
+- ksf_FA_CRM (person records, contact system)
+- PHP >=7.3
+
+*Document Version: 2.0.0*
+*Last Updated: 2026-07-27*

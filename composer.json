@@ -1,5 +1,17 @@
 {
     "name": "ksfraser/ksf_fa_recruitment",
-    "description": "Recruitment - FA_Recruitment",
-    "type": "project"
+    "description": "Recruitment Management Module for FrontAccounting",
+    "type": "frontaccounting-module",
+    "require": {
+        "php": ">=7.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ksfraser\\FrontAccounting\\Recruitment\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
 }

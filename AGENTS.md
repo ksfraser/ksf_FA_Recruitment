@@ -1,39 +1,56 @@
-# AGENTS.md - ksf_FA_Recruitment#
+# AGENTS.md - ksf_FA_Recruitment
 
-## Architecture Overview#
+## Overview
 
-**FA Module** for Recruitment Management - job openings, applications, interviews, and hiring.
+FA Module for Recruitment Management - job openings, applications, interviews, offers, grade linkage, and hiring workflow.
 
-### Core Principles#
-- **SOLID**, **DRY**, **TDD**, **DI**, **SRP**#
+### Core Principles
+- SOLID, DRY, TDD, DI, SRP
 
-## Repository Structure#
+## Namespace Convention
+
+- **FA Platform modules**: `ksfraser\FrontAccounting\<ModuleName>\`
+- **Current**: `ksfraser\FrontAccounting\Recruitment\`
+
+## Table Ownership
+
+### Recruitment Tables (`0_recruit_*`)
+| Table | Purpose |
+|-------|---------|
+| `0_recruit_job_openings` | Job postings (FK to departments, positions) |
+| `0_recruit_job_applications` | Applicant records |
+| `0_recruit_job_descriptions` | Detailed job descriptions |
+| `0_recruit_interviews` | Interview scheduling and feedback |
+| `0_recruit_offers` | Offer letters with salary/grade |
+| `0_recruit_role_grades` | Role -> Grade linkage (typical pay grades) |
+| `0_recruit_position_grades` | Position -> Grade linkage (authorized pay grades) |
+| `0_recruit_grade_approvals` | Grade/salary range violation workflow |
+
+### NOT Owned by Recruitment
+- **Employee records** -> `ksf_FA_HRM` (`0_hrm_contacts_employment`)
+- **Positions, Roles, Grades** -> `ksf_FA_HRM` (`0_hrm_positions`, `0_hrm_roles`, `0_hrm_grades`)
+- **Access control roles** -> FA core / `ksf_RBAC`
+
+## Dependencies
+
+- FrontAccounting 2.4+ (core)
+- ksf_FA_HRM (employee records, org hierarchy)
+- ksf_FA_CRM (person records, contact system)
+- PHP >=7.3
+
+## Repository Structure
 
 ```
 ksf_FA_Recruitment/
-├── sql/#
-│   ├── fa_job_openings.sql#
-│   ├── fa_job_applications.sql#
-│   ├── fa_recruitment_interviews.sql#
-│   └── fa_recruitment_offers.sql#
-├── includes/#
-│   ├── openings_db.inc#
-│   ├── applications_db.inc#
-│   ├── interviews_db.inc#
-│   └── offers_db.inc#
-├── pages/#
-├── hooks.php#
-├── composer.json#
-└── ProjectDocs/#
+├── sql/
+│   └── install.sql          # All Recruitment tables (0_ prefix)
+├── includes/
+│   └── recruitment_db.inc   # Recruitment DB queries
+├── pages/                   # (future: recruitment pages)
+├── hooks.php                # FA module hooks
+├── composer.json
+└── ProjectDcs/
 ```
-
-## Dependencies#
-
-- **ksf_FA_Recruitment_Core** (business logic)#
-- **ksf_FA_CRM** (link applications to leads/contacts)#
-- **ksf_FA_HRM** (convert hires to employees)#
-- **ksf_FA_Onboarding** (onboard new hires)#
-- **FrontAccounting 2.4+**#
 
 ## Development Workflow
 
@@ -44,20 +61,19 @@ All development is done in the **devel tree** (`~/Documents/ksf_FA_Recruitment`)
 2. **Test**: run repo-appropriate tests
 3. **Lint**: `php -l` on modified PHP files (no syntax errors)
 4. **Commit** and **Push** branch to GitHub
-5. **Merge** to `master` when ready
-6. **Push** `master` to GitHub
-7. **Deploy** to UAT by pulling in the Infrastructure bind point:
+5. **Merge** to `main` when ready
+6. **Push** `main` to GitHub
+7. **Deploy** to UAT:
 
    ```
    cd ~/ksf_Infrastructure/fa_modules/ksf_FA_Recruitment
    git stash -u
-   git pull origin master
+   git pull origin main
    git stash pop
    ```
 
 ### UAT Bind Point
 | Path | Purpose |
 |------|---------|
-| `~/Documents/ksf_FA_Recruitment` | Devel tree — all development, testing, commits |
-| `~/ksf_Infrastructure/fa_modules/ksf_FA_Recruitment` | UAT bind point — deployment target, integration testing (if mirrored) |
-
+| `~/Documents/ksf_FA_Recruitment` | Devel tree |
+| `~/ksf_Infrastructure/fa_modules/ksf_FA_Recruitment` | UAT bind point |
